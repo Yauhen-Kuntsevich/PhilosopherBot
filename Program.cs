@@ -14,13 +14,13 @@ var bot = new TelegramBotClient(envVars["BOT_API_KEY"], cancellationToken: cts.T
 var commands = new[] {
     new BotCommand { Command = "/topic", Description = "Цытата паводле тэмы" },
     new BotCommand { Command = "/philosopher", Description = "Цытата паводле імені філосафа" },
-    new BotCommand {Command = "/bio", Description = "Біяграфія філосафа / філасафіні" },
-    new BotCommand {Command = "/works", Description = "Працы, з якіх браліся цытаты"},
-    new BotCommand {Command = "/help", Description = "Як я працую?"},
+    new BotCommand { Command = "/bio", Description = "Біяграфія філосафа / філасафіні" },
+    new BotCommand { Command = "/works", Description = "Працы, з якіх браліся цытаты" },
+    new BotCommand { Command = "/help", Description = "Як я працую?" },
 };
 await bot.SetMyCommandsAsync(commands);
 
-bot.StartReceiving(updateHandler: HandleUpdate, async (bot, ex, ct) => Console.WriteLine(ex));
+bot.StartReceiving(updateHandler: HandleUpdate, errorHandler: async (bot, ex, ct) => Console.WriteLine(ex));
 
 var me = await bot.GetMeAsync();
 Console.WriteLine($"@{me.Username} is running... Press Enter to terminate");
@@ -45,30 +45,8 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
 
     if (msg.Text.Equals("/topic"))
     {
-        var buttons = new List<KeyboardButton[]>();
-        var buttonsRow = new List<KeyboardButton>();
-
-        foreach (var key in quotesDict.Keys)
-        {
-            buttonsRow.Add(new KeyboardButton(key));
-
-            if (buttonsRow.Count == 2)
-            {
-                buttons.Add(buttonsRow.ToArray());
-                buttonsRow = new List<KeyboardButton>();
-            }
-        }
-
-        if (buttonsRow.Count > 0)
-        {
-            buttons.Add(buttonsRow.ToArray());
-        }
-
-        var replyKeyboard = new ReplyKeyboardMarkup(buttons)
-        {
-            ResizeKeyboard = true,
-            OneTimeKeyboard = true,
-        };
+        var keyboardsManufactory = new KeyboardsManufactory();
+        var replyKeyboard = keyboardsManufactory.CreateKeyboard(quotesDict);
 
         await bot.SendTextMessageAsync(msg.Chat, "На якую тэму ты хочаш атрымаць цытату?", replyMarkup: replyKeyboard);
     }
