@@ -3,7 +3,7 @@ using dotenv.net;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using System.Data.Common;
+using Telegram.Bot.Types.ReplyMarkups;
 
 DotEnv.Load();
 var envVars = DotEnv.Read();
@@ -37,12 +37,10 @@ cts.Cancel(); // stop the bot
 // method that handle updates coming for the bot:
 async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken ct)
 {
-    if (update.Message is null) return;			// we want only updates about new Message
-    if (update.Message.Text is null) return;	// we want only updates about new Text Message
+    if (update.Message is null) return;
+    if (update.Message.Text is null) return;
     var msg = update.Message;
     Console.WriteLine($"Received message '{msg.Text}' in {msg.Chat}");
-    // let's echo back received text in the chat
-    // await bot.SendTextMessageAsync(msg.Chat, $"{msg.From} said: {msg.Text}");
 
     if (msg.Text.Trim().Equals("/start"))
     {
@@ -54,15 +52,45 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
 
     if (msg.Text.Equals("/topic"))
     {
-        await bot.SendTextMessageAsync(msg.Chat, "На якую тэму ты хочаш атрымаць цытату?");
+        var buttons = new List<KeyboardButton[]>();
+        var buttonsRow = new List<KeyboardButton>();
+
+        foreach (var key in quotesDict.Keys)
+        {
+            buttonsRow.Add(new KeyboardButton(key));
+
+            if (buttonsRow.Count == 2)
+            {
+                buttons.Add(buttonsRow.ToArray());
+                buttonsRow = new List<KeyboardButton>();
+            }
+        }
+
+        if (buttonsRow.Count > 0)
+        {
+            buttons.Add(buttonsRow.ToArray());
+        }
+
+        var replyKeyboard = new ReplyKeyboardMarkup(buttons)
+        {
+            ResizeKeyboard = true,
+            OneTimeKeyboard = true,
+        };
+
+        await bot.SendTextMessageAsync(msg.Chat, "На якую тэму ты хочаш атрымаць цытату?", replyMarkup: replyKeyboard);
     }
 
     foreach (var key in quotesDict.Keys)
     {
-        if (msg.Text == key)
+        if (msg.Text.ToLower() == key)
         {
             var randomQuote = quote.GetRandomQuoteByTopic("./Data/quotes.json", key);
             await bot.SendTextMessageAsync(msg.Chat, randomQuote.Text);
         }
+    }
+
+    if (msg.Text == "/philosopher")
+    {
+        await bot.SendTextMessageAsync(msg.Chat, "Цытату якога філосафа ты хочаш атрымаць?");
     }
 }

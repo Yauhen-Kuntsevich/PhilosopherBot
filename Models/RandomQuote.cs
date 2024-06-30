@@ -18,13 +18,9 @@ class RandomQuote
             quotes = quotesDict[topic];
         }
 
-        Console.WriteLine(quotes.Count);
-
         var rnd = new Random();
         var randomIndex = rnd.Next(0, quotes.Count);
-        Console.WriteLine(randomIndex);
         var randomQuote = quotes[randomIndex];
-        Console.WriteLine(randomQuote.Id);
 
         return randomQuote;
     }
