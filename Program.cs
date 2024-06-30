@@ -31,7 +31,7 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
     // await bot.SendTextMessageAsync(msg.Chat, $"{msg.From} said: {msg.Text}");
     if (msg.Text.Equals("/ping"))
     {
-        var quote = new Quote();
+        var quote = new RandomQuote();
         var randomQuote = quote.GetRandomQuoteByTopic("./Data/quotes.json", "этыка").Text;
         await bot.SendTextMessageAsync(msg.Chat, randomQuote);
     }

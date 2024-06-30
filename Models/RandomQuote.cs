@@ -2,16 +2,16 @@ using System.Text.Json;
 
 namespace PhilosopherBot.Models;
 
-class Quote
+class RandomQuote
 {
     public int Id { get; set; }
     public string Author { get; set; } = null!;
     public string Text { get; set; } = null!;
 
-    public Quote GetRandomQuoteByTopic(string jsonPath, string topic)
+    public RandomQuote GetRandomQuoteByTopic(string jsonPath, string topic)
     {
         var quotesDict = ParseQuotesJsonToDictionary(jsonPath);
-        var quotes = new List<Quote>();
+        var quotes = new List<RandomQuote>();
 
         if (quotesDict.ContainsKey(topic))
         {
@@ -29,14 +29,14 @@ class Quote
         return randomQuote;
     }
 
-    private Dictionary<string, List<Quote>> ParseQuotesJsonToDictionary(string jsonPath)
+    private Dictionary<string, List<RandomQuote>> ParseQuotesJsonToDictionary(string jsonPath)
     {
         var jsonAsString = File.ReadAllText(jsonPath);
-        var result = JsonSerializer.Deserialize<Dictionary<string, List<Quote>>>(jsonAsString);
+        var result = JsonSerializer.Deserialize<Dictionary<string, List<RandomQuote>>>(jsonAsString);
 
         if (result == null)
         {
-            return new Dictionary<string, List<Quote>>();
+            return new Dictionary<string, List<RandomQuote>>();
         }
 
         return result;
