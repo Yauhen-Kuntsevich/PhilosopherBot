@@ -82,10 +82,14 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
 
     foreach (var key in quotesDict.Keys)
     {
-        if (msg.Text.ToLower() == key)
+        if (msg.Text.ToLower() == key.ToLower())
         {
             var randomQuote = quote.GetRandomQuoteByTopic("./Data/quotes.json", key);
-            await bot.SendTextMessageAsync(msg.Chat, randomQuote.Text);
+            await bot.SendTextMessageAsync(
+                msg.Chat,
+                $"{randomQuote.Text}\n\n<b>{randomQuote.Author}</b>",
+                parseMode: ParseMode.Html
+            );
         }
     }
 
