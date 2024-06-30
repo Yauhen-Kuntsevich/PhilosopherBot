@@ -9,7 +9,7 @@ DotEnv.Load();
 var envVars = DotEnv.Read();
 
 using var cts = new CancellationTokenSource();
-var bot = new TelegramBotClient(envVars["BOT_API_KEY"]);
+var bot = new TelegramBotClient(envVars["BOT_API_KEY"], cancellationToken: cts.Token);
 
 var commands = new[] {
     new BotCommand { Command = "/topic", Description = "Цытата паводле тэмы" },
@@ -19,15 +19,7 @@ var commands = new[] {
 };
 await bot.SetMyCommandsAsync(commands);
 
-bot.StartReceiving(
-    updateHandler: HandleUpdate,
-    pollingErrorHandler: (bot, ex, ct) =>
-    {
-        Console.WriteLine(ex);
-        return Task.CompletedTask;
-    },
-    cancellationToken: cts.Token
-);
+bot.StartReceiving(updateHandler: HandleUpdate, async (bot, ex, ct) => Console.WriteLine(ex));
 
 var me = await bot.GetMeAsync();
 Console.WriteLine($"@{me.Username} is running... Press Enter to terminate");
@@ -90,6 +82,7 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
                 $"{randomQuote.Text}\n\n<b>{randomQuote.Author}</b>",
                 parseMode: ParseMode.Html
             );
+            await bot.SendPhotoAsync(msg.Chat, "./Image/Plato.jpg");
         }
     }
 
