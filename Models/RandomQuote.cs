@@ -29,16 +29,11 @@ class RandomQuote
         return randomQuote;
     }
 
-    private Dictionary<string, List<RandomQuote>> ParseQuotesJsonToDictionary(string jsonPath)
+    public Dictionary<string, List<RandomQuote>> ParseQuotesJsonToDictionary(string jsonPath)
     {
         var jsonAsString = File.ReadAllText(jsonPath);
         var result = JsonSerializer.Deserialize<Dictionary<string, List<RandomQuote>>>(jsonAsString);
 
-        if (result == null)
-        {
-            return new Dictionary<string, List<RandomQuote>>();
-        }
-
-        return result;
+        return result ?? new Dictionary<string, List<RandomQuote>>();
     }
 }
