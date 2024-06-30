@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using PhilosopherBot.Models;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -27,5 +28,11 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
     var msg = update.Message;
     Console.WriteLine($"Received message '{msg.Text}' in {msg.Chat}");
     // let's echo back received text in the chat
-    await bot.SendTextMessageAsync(msg.Chat, $"{msg.From} said: {msg.Text}");
+    // await bot.SendTextMessageAsync(msg.Chat, $"{msg.From} said: {msg.Text}");
+    if (msg.Text.Equals("/ping"))
+    {
+        var quote = new Quote();
+        var randomQuote = quote.GetRandomQuoteByTopic("./Data/quotes.json", "этыка").Text;
+        await bot.SendTextMessageAsync(msg.Chat, randomQuote);
+    }
 }
