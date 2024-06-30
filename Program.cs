@@ -1,10 +1,15 @@
 ﻿using PhilosopherBot.Models;
+using dotenv.net;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
+DotEnv.Load();
+var envVars = DotEnv.Read();
+
 using var cts = new CancellationTokenSource();
-var bot = new TelegramBotClient("6536318939:AAFJnvfNvM0Nr4pr3mGSwomPMjgH3sxqFds");
+var bot = new TelegramBotClient(envVars["BOT_API_KEY"]);
+
 bot.StartReceiving(
     updateHandler: HandleUpdate,
     pollingErrorHandler: (bot, ex, ct) =>
