@@ -1,4 +1,4 @@
-﻿namespace PhilosopherBot;
+﻿namespace PhilosopherBot.Contracts;
 
 public interface ICommandHandler
 {

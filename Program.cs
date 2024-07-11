@@ -33,17 +33,12 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
     var msg = update.Message;
     Console.WriteLine($"Received message '{msg.Text}' in {msg.Chat}");
 
-    if (msg.Text.Equals("/start"))
-    {
-        await new StartCommandHandler(bot, msg.Chat.Id).Handle();
-    }
-
     var quotesDict = Quote.ParseQuotesJsonToDictionary("./Data/quotes.json");
     var topicsKeyboard = new KeyboardsManufactory().CreateKeyboard(quotesDict);
 
-    if (msg.Text.Equals("/topic"))
+    if (msg.Text.TrimStart().StartsWith('/'))
     {
-        await new TopicCommandHandler(bot, msg.Chat.Id, quotesDict).Handle();
+        await new CommandHandlersFactory(msg.Text, bot, msg.Chat.Id, quotesDict).CreateHandler().Handle();
     }
 
     foreach (var key in quotesDict.Keys)
