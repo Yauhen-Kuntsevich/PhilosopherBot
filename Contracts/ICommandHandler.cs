@@ -2,5 +2,5 @@
 
 public interface ICommandHandler
 {
-    
+    Task Handle();
 }

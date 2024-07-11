@@ -2,7 +2,6 @@
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
 using PhilosopherBot.Utils;
 using PhilosopherBot.Handlers;
 
@@ -38,7 +37,7 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
 
     if (msg.Text.Equals("/start"))
     {
-        await StartCommandHandler.SendGreetings(bot, msg);
+        await new StartCommandHandler(bot, msg.Chat.Id).Handle();
     }
 
     var quotesDict = Quote.ParseQuotesJsonToDictionary("./Data/quotes.json");
