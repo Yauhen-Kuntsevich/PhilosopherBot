@@ -1,9 +1,10 @@
-﻿using PhilosopherBot.Models;
-using dotenv.net;
+﻿using dotenv.net;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using PhilosopherBot.Utils;
+using PhilosopherBot.Handlers;
 
 DotEnv.Load();
 var envVars = DotEnv.Read();
@@ -25,7 +26,7 @@ bot.StartReceiving(updateHandler: HandleUpdate, errorHandler: async (bot, ex, ct
 var me = await bot.GetMeAsync();
 Console.WriteLine($"@{me.Username} is running... Press Enter to terminate");
 Console.ReadLine();
-cts.Cancel(); // stop the bot
+cts.Cancel();
 
 
 async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken ct)
@@ -37,18 +38,11 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
 
     if (msg.Text.Equals("/start"))
     {
-        await bot.SendTextMessageAsync(
-            msg.Chat,
-            "Вітанкі! Я бот, створаны Афінай, персанажкай <a href=\"https://yauhen-kuntsevich.github.io/luxation-of-thinking/\">аднаго падручніка па філасофіі</a>. Вядома, я не сапраўдны філосаф, але сёе-тое ўмею🤖\n\n📝 Калі ты хочаш атрымаць выпадковую цытату на нейкую важную тэму, скарыстайся камандай /topic\n\n🧙‍♂ А калі хочаш атрымаць выпадковую думку нейкага філосафа, напішы мне /philosopher\n\n🤓 Каманда /bio дапаможа табе атрымаць кароткую біяграфію выпадковага філосафа ці філасафіні з цікавымі фактамі з іх жыцця.\n\n🕵‍♀ Калі ты ведаеш, пра каго хочаш пачытаць, дапоўні каманду /bio прозвішчам або іменем, напрыклад, /bio Кант.\n\n😿 У мяне няма ўсіх на свеце цытатаў, таму можа так здарыцца, што цытаты патрэбных табе мысляроў і мыслярак тут не знойдзецца.\n\n📚 Каманда /works дашле табе спіс кніжак, выкарыстаных пры стварэнні гэтага боту, і проста кніжкі, на якія можна звярнуць увагу.\n\n🦾 Усе гэтыя каманды ты знойдзеш, калі націснеш на кнопку Menu у левым ніжнім куце. А каманда /help дапаможа табе, калі ты нешта забудзеш.",
-            parseMode: ParseMode.Html,
-            replyMarkup: new InlineKeyboardMarkup(
-                InlineKeyboardButton.WithUrl("Сайт падручніка", "https://yauhen-kuntsevich.github.io/luxation-of-thinking/")
-            )
-        );
+        await StartCommandHandler.SendGreetings(bot, msg);
     }
 
-    var quote = new RandomQuote();
-    var quotesDict = quote.ParseQuotesJsonToDictionary("./Data/quotes.json");
+    var quotesDict = Quote.ParseQuotesJsonToDictionary("./Data/quotes.json");
+    var quote = new Quote();
 
     if (msg.Text.Equals("/topic"))
     {
@@ -62,7 +56,7 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
     {
         if (msg.Text.ToLower() == key.ToLower())
         {
-            var randomQuote = quote.GetRandomQuoteByTopic("./Data/quotes.json", key);
+            var randomQuote = quote.GetRandomQuoteByTopic(quotesDict, key);
             await bot.SendTextMessageAsync(
                 msg.Chat,
                 $"{randomQuote.Text}\n\n<b>{randomQuote.Author}</b>",
@@ -86,6 +80,6 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
 
     if (msg.Text == "/works")
     {
-        await bot.SendTextMessageAsync(msg.Chat, "pong");
+        await bot.SendTextMessageAsync(msg.Chat, "Гэтая функцыя пакуль распрацоўваецца.");
     }
 }

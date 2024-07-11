@@ -1,19 +1,21 @@
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace PhilosopherBot.Models;
+namespace PhilosopherBot.Utils;
 
 class KeyboardsManufactory
 {
     public List<KeyboardButton[]> Buttons { get; set; } = new List<KeyboardButton[]>();
     public List<KeyboardButton> ButtonsRow { get; set; } = new List<KeyboardButton>();
 
-    public ReplyKeyboardMarkup CreateKeyboard(Dictionary<string, List<RandomQuote>> quotesDict)
+    public ReplyKeyboardMarkup CreateKeyboard(Dictionary<string, List<Quote>> quotesDict)
     {
+        const int buttonsInRowCount = 2;
+
         foreach (var key in quotesDict.Keys)
         {
             ButtonsRow.Add(new KeyboardButton(key));
 
-            if (ButtonsRow.Count == 2)
+            if (ButtonsRow.Count == buttonsInRowCount)
             {
                 Buttons.Add(ButtonsRow.ToArray());
                 ButtonsRow = new List<KeyboardButton>();
@@ -25,12 +27,10 @@ class KeyboardsManufactory
             Buttons.Add(ButtonsRow.ToArray());
         }
 
-        var replyKeyboard = new ReplyKeyboardMarkup(Buttons)
+        return new ReplyKeyboardMarkup(Buttons)
         {
             ResizeKeyboard = true,
             OneTimeKeyboard = true,
         };
-
-        return replyKeyboard;
     }
 }
