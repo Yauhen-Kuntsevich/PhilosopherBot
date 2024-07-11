@@ -1,7 +1,6 @@
 ﻿using dotenv.net;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 using PhilosopherBot.Utils;
 using PhilosopherBot.Handlers;
 
@@ -27,7 +26,6 @@ Console.WriteLine($"@{me.Username} is running... Press Enter to terminate");
 Console.ReadLine();
 cts.Cancel();
 
-
 async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken ct)
 {
     if (update.Message is null) return;
@@ -41,44 +39,18 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
     }
 
     var quotesDict = Quote.ParseQuotesJsonToDictionary("./Data/quotes.json");
-    var quote = new Quote();
+    var topicsKeyboard = new KeyboardsManufactory().CreateKeyboard(quotesDict);
 
     if (msg.Text.Equals("/topic"))
     {
-        var keyboardsManufactory = new KeyboardsManufactory();
-        var replyKeyboard = keyboardsManufactory.CreateKeyboard(quotesDict);
-
-        await bot.SendTextMessageAsync(msg.Chat, "На якую тэму ты хочаш атрымаць цытату?", replyMarkup: replyKeyboard);
+        await new TopicCommandHandler(bot, msg.Chat.Id, quotesDict).Handle();
     }
 
     foreach (var key in quotesDict.Keys)
     {
-        if (msg.Text.ToLower() == key.ToLower())
+        if (msg.Text.Equals(key))
         {
-            var randomQuote = quote.GetRandomQuoteByTopic(quotesDict, key);
-            await bot.SendTextMessageAsync(
-                msg.Chat,
-                $"{randomQuote.Text}\n\n<b>{randomQuote.Author}</b>",
-                parseMode: ParseMode.Html
-            );
-
-            if (System.IO.File.Exists(randomQuote.ImagePath))
-            {
-                using (var stream = new FileStream(randomQuote.ImagePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    await bot.SendPhotoAsync(msg.Chat.Id, stream);
-                }
-            }
+            await new TopicChoiceHandler(bot, msg.Chat.Id, quotesDict, key).Handle();
         }
-    }
-
-    if (msg.Text == "/philosopher")
-    {
-        await bot.SendTextMessageAsync(msg.Chat, "Цытату якога філосафа ты хочаш атрымаць?");
-    }
-
-    if (msg.Text == "/works")
-    {
-        await bot.SendTextMessageAsync(msg.Chat, "Гэтая функцыя пакуль распрацоўваецца.");
     }
 }
