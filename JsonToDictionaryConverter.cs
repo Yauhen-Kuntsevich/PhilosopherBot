@@ -17,12 +17,12 @@ public class JsonToDictionaryConverter
         }
         catch (FileNotFoundException ex)
         {
-            Console.WriteLine("Такога файлу з цытатамі не існуе: ", ex.Message);
+            Console.WriteLine($"Такога файлу з цытатамі не існуе:  {ex.Message}");
             return new Dictionary<string, Quote[]>();
         }
         catch (JsonException ex)
         {
-            Console.WriteLine("Не атрымліваецца распарсіць JSON: ", ex.Message);
+            Console.WriteLine($"Не атрымліваецца распарсіць JSON: {ex.Message}");
             return new Dictionary<string, Quote[]>();
         }
         catch (Exception ex)
