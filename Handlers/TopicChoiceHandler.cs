@@ -10,12 +10,12 @@ public class TopicChoiceHandler : IMessageHandler
 {
     private readonly ITelegramBotClient _bot;
     private readonly long _chatId;
-    private readonly List<Quote> _quotes;
+    private readonly Quote[] _quotes;
 
     public TopicChoiceHandler(
         ITelegramBotClient bot,
         long chatId,
-        List<Quote> quotes
+        Quote[] quotes
     )
     {
         _bot = bot;
@@ -33,7 +33,7 @@ public class TopicChoiceHandler : IMessageHandler
     private Quote GetRandomQuoteByTopic()
     {
         var rnd = new Random();
-        var randomIndex = rnd.Next(0, _quotes.Count);
+        var randomIndex = rnd.Next(0, _quotes.Length);
         var randomQuote = _quotes[randomIndex];
 
         return randomQuote;

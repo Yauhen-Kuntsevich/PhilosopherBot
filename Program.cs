@@ -3,6 +3,8 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using PhilosopherBot.Models;
 using PhilosopherBot.Handlers;
+using PhilosopherBot;
+using PhilosopherBot.Repositories;
 
 DotEnv.Load();
 var envVars = DotEnv.Read();
@@ -33,7 +35,9 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
     var msg = update.Message;
     Console.WriteLine($"Received message '{msg.Text}' in {msg.Chat}");
 
-    var quotesRepository = new QuotesRepository();
+    var quotesDict = new JsonToDictionaryConverter().Convert();
+
+    var quotesRepository = new QuotesRepository(quotesDict);
 
     var topics = quotesRepository.GetAllTopics();
     var philosophers = quotesRepository.GetAllPhilosophers();
