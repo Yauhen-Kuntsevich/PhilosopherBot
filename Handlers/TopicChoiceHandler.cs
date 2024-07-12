@@ -27,7 +27,7 @@ public class TopicChoiceHandler : IMessageHandler
     {
         var randomQuote = GetRandomQuoteByTopic();
         await SendRandomQuote(randomQuote);
-        await SendAuthorImage(randomQuote);
+        await SendPhilosopherImage(randomQuote);
     }
 
     private Quote GetRandomQuoteByTopic()
@@ -48,7 +48,7 @@ public class TopicChoiceHandler : IMessageHandler
         );
     }
 
-    private async Task<Message> SendAuthorImage(Quote randomQuote)
+    private async Task<Message> SendPhilosopherImage(Quote randomQuote)
     {
         if (System.IO.File.Exists(randomQuote.ImagePath))
         {

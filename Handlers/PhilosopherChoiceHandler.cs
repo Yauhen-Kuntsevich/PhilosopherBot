@@ -27,6 +27,7 @@ public class PhilosopherChoiceHandler : IMessageHandler
     {
         var randomQuote = GetRandomQuoteByPhilosopher();
         await SendRandomQuote(randomQuote);
+        await SendPhilosopherImage(randomQuote);
     }
 
     private Quote GetRandomQuoteByPhilosopher()
@@ -44,6 +45,23 @@ public class PhilosopherChoiceHandler : IMessageHandler
             _chatId,
             $"{randomQuote.Text}\n\n<b>{randomQuote.Author}</b>",
             parseMode: ParseMode.Html
+        );
+    }
+
+    private async Task<Message> SendPhilosopherImage(Quote randomQuote)
+    {
+        if (System.IO.File.Exists(randomQuote.ImagePath))
+        {
+            using var stream = new FileStream(randomQuote.ImagePath, FileMode.Open, FileAccess.Read);
+            return await _bot.SendPhotoAsync(
+                _chatId,
+                stream
+            );
+        }
+
+        return await _bot.SendTextMessageAsync(
+            _chatId,
+            "Выявы гэтага філосафа ў маёй базе пакуль няма 😢"
         );
     }
 }
