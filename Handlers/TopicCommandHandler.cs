@@ -24,10 +24,10 @@ public class TopicCommandHandler : ICommandHandler
 
     public async Task Handle()
     {
-        await ReactToCommandWithKeyboard();
+        await ReactOnCommandWithKeyboard();
     }
 
-    private async Task<Message> ReactToCommandWithKeyboard()
+    private async Task<Message> ReactOnCommandWithKeyboard()
     {
         var keyboard = new KeyboardsManufactory().CreateKeyboard(_topics);
 

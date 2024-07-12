@@ -1,5 +1,7 @@
 ﻿using Telegram.Bot;
+using Telegram.Bot.Types;
 using PhilosopherBot.Contracts;
+using PhilosopherBot.Models;
 
 namespace PhilosopherBot.Handlers;
 
@@ -7,9 +9,32 @@ public class PhilosopherCommandHandler : ICommandHandler
 {
     private readonly ITelegramBotClient _bot;
     private readonly long _chatId;
+    private readonly List<string> _philosophers;
 
-    public Task Handle()
+    public PhilosopherCommandHandler(
+        ITelegramBotClient bot,
+        long chatId,
+        List<string> philosophers
+    )
     {
-        throw new NotImplementedException();
+        _bot = bot;
+        _chatId = chatId;
+        _philosophers = philosophers;
+    }
+
+    public async Task Handle()
+    {
+        await ReactOnCommandWithKeyboard();
+    }
+
+    private async Task<Message> ReactOnCommandWithKeyboard()
+    {
+        var keyboard = new KeyboardsManufactory().CreateKeyboard(_philosophers);
+
+        return await _bot.SendTextMessageAsync(
+            _chatId,
+            "Цытату якога філосафа ты хочаш атрымаць?",
+            replyMarkup: keyboard
+        );
     }
 }

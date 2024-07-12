@@ -34,7 +34,7 @@ public class QuotesRepository
         return new List<Quote>();
     }
 
-    public List<string> GetAllAuthors()
+    public List<string> GetAllPhilosophers()
     {
         var quotesDict = GetQuotesDictionaryFromJson();
         var authors = new List<string>();

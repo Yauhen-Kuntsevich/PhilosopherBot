@@ -36,11 +36,11 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
     var quotesRepository = new QuotesRepository();
 
     var topics = quotesRepository.GetAllTopics();
-    var authors = quotesRepository.GetAllAuthors();
+    var philosophers = quotesRepository.GetAllPhilosophers();
 
     if (msg.Text.TrimStart().StartsWith('/'))
     {
-        await new CommandHandlersFactory(msg.Text, bot, msg.Chat.Id, topics).CreateHandler().Handle();
+        await new CommandHandlersFactory(msg.Text, bot, msg.Chat.Id, topics, philosophers).CreateHandler().Handle();
     }
 
     foreach (var topic in topics)
