@@ -34,6 +34,25 @@ public class QuotesRepository
         return new List<Quote>();
     }
 
+    public List<Quote> GetQuotesByPhilosopher(string philosopherName)
+    {
+        var quotesDict = GetQuotesDictionaryFromJson();
+        var quotesByPhilosopher = new List<Quote>();
+
+        foreach (var key in quotesDict.Keys)
+        {
+            foreach (var quote in quotesDict[key])
+            {
+                if (quote.Author.Equals(philosopherName))
+                {
+                    quotesByPhilosopher.Add(quote);
+                }
+            }
+        }
+
+        return quotesByPhilosopher;
+    }
+
     public List<string> GetAllPhilosophers()
     {
         var quotesDict = GetQuotesDictionaryFromJson();
