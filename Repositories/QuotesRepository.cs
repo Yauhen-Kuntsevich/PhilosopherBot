@@ -6,7 +6,51 @@ public class QuotesRepository
 {
     private readonly string _pathToQuotes = "./Data/quotes.json";
 
-    public Dictionary<string, List<Quote>> GetQuotesDictionary()
+    public List<string> GetAllTopics()
+    {
+        var quotesDict = GetQuotesDictionaryFromJson();
+        var topics = new List<string>();
+
+        foreach (var key in quotesDict.Keys)
+        {
+            topics.Add(key);
+        }
+
+        return topics;
+    }
+
+    public List<Quote> GetQuotesByTopic(string topic)
+    {
+        var quotesDict = GetQuotesDictionaryFromJson();
+
+        foreach (var key in quotesDict.Keys)
+        {
+            if (key.Equals(topic))
+            {
+                return quotesDict[key];
+            }
+        }
+
+        return new List<Quote>();
+    }
+
+    public List<string> GetAllAuthors()
+    {
+        var quotesDict = GetQuotesDictionaryFromJson();
+        var authors = new List<string>();
+
+        foreach (var key in quotesDict.Keys)
+        {
+            foreach (var quote in quotesDict[key])
+            {
+                authors.Add(quote.Author);
+            }
+        }
+
+        return authors.Where(a => a != null).Distinct().ToList();
+    }
+
+    private Dictionary<string, List<Quote>> GetQuotesDictionaryFromJson()
     {
         try
         {
@@ -31,19 +75,4 @@ public class QuotesRepository
         }
     }
 
-    public List<string> GetAllAuthors()
-    {
-        var quotesDict = GetQuotesDictionary();
-        var authors = new List<string>();
-
-        foreach (var key in quotesDict.Keys)
-        {
-            foreach (var quote in quotesDict[key])
-            {
-                authors.Add(quote.Author);
-            }
-        }
-
-        return authors.Where(a => a != null).Distinct().ToList();
-    }
 }

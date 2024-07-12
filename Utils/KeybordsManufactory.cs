@@ -7,13 +7,13 @@ class KeyboardsManufactory
     public List<KeyboardButton[]> Buttons { get; set; } = new List<KeyboardButton[]>();
     public List<KeyboardButton> ButtonsRow { get; set; } = new List<KeyboardButton>();
 
-    public ReplyKeyboardMarkup CreateKeyboard(Dictionary<string, List<Quote>> quotesDict)
+    public ReplyKeyboardMarkup CreateKeyboard(List<string> optionsList)
     {
         const int buttonsInRowCount = 2;
 
-        foreach (var key in quotesDict.Keys)
+        foreach (var option in optionsList)
         {
-            ButtonsRow.Add(new KeyboardButton(key));
+            ButtonsRow.Add(new KeyboardButton(option));
 
             if (ButtonsRow.Count == buttonsInRowCount)
             {

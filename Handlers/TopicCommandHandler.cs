@@ -9,17 +9,17 @@ public class TopicCommandHandler : ICommandHandler
 {
     private readonly ITelegramBotClient _bot;
     private readonly long _chatId;
-    private readonly Dictionary<string, List<Quote>> _quotesDict;
+    private readonly List<string> _topics;
 
     public TopicCommandHandler(
         ITelegramBotClient bot,
         long chatId,
-        Dictionary<string, List<Quote>> quotesDict
+        List<string> topics
     )
     {
         _bot = bot;
         _chatId = chatId;
-        _quotesDict = quotesDict;
+        _topics = topics;
     }
 
     public async Task Handle()
@@ -29,7 +29,7 @@ public class TopicCommandHandler : ICommandHandler
 
     private async Task<Message> ReactToCommandWithKeyboard()
     {
-        var keyboard = new KeyboardsManufactory().CreateKeyboard(_quotesDict);
+        var keyboard = new KeyboardsManufactory().CreateKeyboard(_topics);
 
         return await _bot.SendTextMessageAsync(
             _chatId,

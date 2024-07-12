@@ -35,24 +35,20 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
 
     var quotesRepository = new QuotesRepository();
 
-    var quotesDict = quotesRepository.GetQuotesDictionary();
+    var topics = quotesRepository.GetAllTopics();
     var authors = quotesRepository.GetAllAuthors();
-
-    foreach (var author in authors)
-    {
-        Console.WriteLine(author);
-    }
 
     if (msg.Text.TrimStart().StartsWith('/'))
     {
-        await new CommandHandlersFactory(msg.Text, bot, msg.Chat.Id, quotesDict).CreateHandler().Handle();
+        await new CommandHandlersFactory(msg.Text, bot, msg.Chat.Id, topics).CreateHandler().Handle();
     }
 
-    foreach (var key in quotesDict.Keys)
+    foreach (var topic in topics)
     {
-        if (msg.Text.Equals(key))
+        if (msg.Text.Equals(topic))
         {
-            await new TopicChoiceHandler(bot, msg.Chat.Id, quotesDict, key).Handle();
+            var quotes = quotesRepository.GetQuotesByTopic(topic);
+            await new TopicChoiceHandler(bot, msg.Chat.Id, quotes).Handle();
         }
     }
 }

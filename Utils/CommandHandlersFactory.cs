@@ -9,19 +9,19 @@ public class CommandHandlersFactory
     private readonly string _command;
     private readonly ITelegramBotClient _bot;
     private readonly long _chatId;
-    private readonly Dictionary<string, List<Quote>> _quotesDict;
+    private readonly List<string> _topics;
 
     public CommandHandlersFactory(
         string command,
         ITelegramBotClient bot,
         long chatId,
-        Dictionary<string, List<Quote>> quoteDict
+        List<string> topics
     )
     {
         _command = command;
         _bot = bot;
         _chatId = chatId;
-        _quotesDict = quoteDict;
+        _topics = topics;
     }
 
     public ICommandHandler CreateHandler()
@@ -37,7 +37,7 @@ public class CommandHandlersFactory
                 return new TopicCommandHandler(
                     _bot,
                     _chatId,
-                    _quotesDict
+                    _topics
                 );
             default:
                 return new UnknownCommandHandler(

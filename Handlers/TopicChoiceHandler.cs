@@ -9,19 +9,17 @@ public class TopicChoiceHandler
 {
     private readonly ITelegramBotClient _bot;
     private readonly long _chatId;
-    private readonly Dictionary<string, List<Quote>> _quotesDict;
-    private readonly string _topic;
+    private readonly List<Quote> _quotes;
 
     public TopicChoiceHandler(
         ITelegramBotClient bot,
         long chatId,
-        Dictionary<string, List<Quote>> quotesDict,
-        string topic)
+        List<Quote> quotes
+    )
     {
         _bot = bot;
         _chatId = chatId;
-        _quotesDict = quotesDict;
-        _topic = topic;
+        _quotes = quotes;
     }
 
     public async Task Handle()
@@ -29,21 +27,13 @@ public class TopicChoiceHandler
         var randomQuote = GetRandomQuoteByTopic();
         await SendRandomQuote(randomQuote);
         await SendAuthorImage(randomQuote);
-
     }
 
     private Quote GetRandomQuoteByTopic()
     {
-        var quotes = new List<Quote>();
-
-        if (_quotesDict.ContainsKey(_topic))
-        {
-            quotes = _quotesDict[_topic];
-        }
-
         var rnd = new Random();
-        var randomIndex = rnd.Next(0, quotes.Count);
-        var randomQuote = quotes[randomIndex];
+        var randomIndex = rnd.Next(0, _quotes.Count);
+        var randomQuote = _quotes[randomIndex];
 
         return randomQuote;
     }
