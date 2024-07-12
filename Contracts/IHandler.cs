@@ -1,6 +1,6 @@
 ﻿namespace PhilosopherBot.Contracts;
 
-public interface ICommandHandler
+public interface IMessageHandler
 {
     Task Handle();
 }

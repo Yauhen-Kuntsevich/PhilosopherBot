@@ -5,7 +5,7 @@ using PhilosopherBot.Models;
 
 namespace PhilosopherBot.Handlers;
 
-public class PhilosopherCommandHandler : ICommandHandler
+public class PhilosopherCommandHandler : IMessageHandler
 {
     private readonly ITelegramBotClient _bot;
     private readonly long _chatId;

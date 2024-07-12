@@ -27,7 +27,7 @@ public class CommandHandlersFactory
         _philosophers = philosophers;
     }
 
-    public ICommandHandler CreateHandler()
+    public IMessageHandler CreateHandler()
     {
         switch (_command)
         {

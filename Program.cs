@@ -51,4 +51,13 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
             await new TopicChoiceHandler(bot, msg.Chat.Id, quotes).Handle();
         }
     }
+
+    foreach (var philosopher in philosophers)
+    {
+        if (msg.Text.Equals(philosopher))
+        {
+            var quotes = quotesRepository.GetQuotesByPhilosopher(philosopher);
+            await new PhilosopherChoiceHandler(bot, msg.Chat.Id, quotes).Handle();
+        }
+    }
 }
