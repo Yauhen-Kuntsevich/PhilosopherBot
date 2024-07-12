@@ -40,7 +40,10 @@ public class CommandHandlersFactory
                     _quotesDict
                 );
             default:
-                return new UnknownCommandHandler();
+                return new UnknownCommandHandler(
+                    _bot,
+                    _chatId
+                );
         }
     }
 }
