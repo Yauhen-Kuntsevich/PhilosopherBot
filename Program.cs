@@ -33,8 +33,9 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
     var msg = update.Message;
     Console.WriteLine($"Received message '{msg.Text}' in {msg.Chat}");
 
-    var quotesDict = Quote.ParseQuotesJsonToDictionary("./Data/quotes.json");
-    var topicsKeyboard = new KeyboardsManufactory().CreateKeyboard(quotesDict);
+    var quotesRepository = new QuotesRepository();
+
+    var quotesDict = quotesRepository.GetQuotesDictionary();
 
     if (msg.Text.TrimStart().StartsWith('/'))
     {
