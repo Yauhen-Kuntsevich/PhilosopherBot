@@ -9,12 +9,12 @@ public class TopicCommandHandler : IMessageHandler
 {
     private readonly ITelegramBotClient _bot;
     private readonly long _chatId;
-    private readonly List<string> _topics;
+    private readonly string[] _topics;
 
     public TopicCommandHandler(
         ITelegramBotClient bot,
         long chatId,
-        List<string> topics
+        string[] topics
     )
     {
         _bot = bot;

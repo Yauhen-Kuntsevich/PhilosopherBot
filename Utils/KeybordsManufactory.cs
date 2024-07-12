@@ -7,7 +7,7 @@ class KeyboardsManufactory
     public List<KeyboardButton[]> Buttons { get; set; } = new List<KeyboardButton[]>();
     public List<KeyboardButton> ButtonsRow { get; set; } = new List<KeyboardButton>();
 
-    public ReplyKeyboardMarkup CreateKeyboard(List<string> optionsList)
+    public ReplyKeyboardMarkup CreateKeyboard(string[] optionsList)
     {
         const int buttonsInRowCount = 2;
 

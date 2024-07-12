@@ -9,12 +9,12 @@ public class PhilosopherCommandHandler : IMessageHandler
 {
     private readonly ITelegramBotClient _bot;
     private readonly long _chatId;
-    private readonly List<string> _philosophers;
+    private readonly string[] _philosophers;
 
     public PhilosopherCommandHandler(
         ITelegramBotClient bot,
         long chatId,
-        List<string> philosophers
+        string[] philosophers
     )
     {
         _bot = bot;

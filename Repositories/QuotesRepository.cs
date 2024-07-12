@@ -11,29 +11,14 @@ public class QuotesRepository
         _quotesDict = quotesDict;
     }
 
-    public List<string> GetAllTopics()
+    public string[] GetAllTopics()
     {
-        var topics = new List<string>();
-
-        foreach (var key in _quotesDict.Keys)
-        {
-            topics.Add(key);
-        }
-
-        return topics;
+        return _quotesDict.Keys.ToArray();
     }
 
     public Quote[] GetQuotesByTopic(string topic)
     {
-        foreach (var key in _quotesDict.Keys)
-        {
-            if (key.Equals(topic))
-            {
-                return _quotesDict[key];
-            }
-        }
-
-        return [];
+        return _quotesDict.TryGetValue(topic, out var quotes) ? quotes : [];
     }
 
     public List<Quote> GetQuotesByPhilosopher(string philosopherName)
@@ -54,18 +39,12 @@ public class QuotesRepository
         return quotesByPhilosopher;
     }
 
-    public List<string> GetAllPhilosophers()
+    public string[] GetAllPhilosophers()
     {
-        var authors = new List<string>();
-
-        foreach (var key in _quotesDict.Keys)
-        {
-            foreach (var quote in _quotesDict[key])
-            {
-                authors.Add(quote.Author);
-            }
-        }
-
-        return authors.Where(a => a != null).Distinct().ToList();
+        return _quotesDict.Values
+                   .SelectMany(quotes => quotes.Select(q => q.Author))
+                   .Where(a => !string.IsNullOrEmpty(a))
+                   .Distinct()
+                   .ToArray();
     }
 }

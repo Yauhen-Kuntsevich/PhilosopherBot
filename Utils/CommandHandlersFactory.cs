@@ -9,15 +9,15 @@ public class CommandHandlersFactory
     private readonly string _command;
     private readonly ITelegramBotClient _bot;
     private readonly long _chatId;
-    private readonly List<string> _topics;
-    private readonly List<string> _philosophers;
+    private readonly string[] _topics;
+    private readonly string[] _philosophers;
 
     public CommandHandlersFactory(
         string command,
         ITelegramBotClient bot,
         long chatId,
-        List<string> topics,
-        List<string> philosophers
+        string[] topics,
+        string[] philosophers
     )
     {
         _command = command;
