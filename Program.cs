@@ -1,7 +1,7 @@
 ﻿using dotenv.net;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using PhilosopherBot.Utils;
+using PhilosopherBot.Models;
 using PhilosopherBot.Handlers;
 
 DotEnv.Load();
@@ -36,6 +36,12 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
     var quotesRepository = new QuotesRepository();
 
     var quotesDict = quotesRepository.GetQuotesDictionary();
+    var authors = quotesRepository.GetAllAuthors();
+
+    foreach (var author in authors)
+    {
+        Console.WriteLine(author);
+    }
 
     if (msg.Text.TrimStart().StartsWith('/'))
     {

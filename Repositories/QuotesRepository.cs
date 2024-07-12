@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace PhilosopherBot.Utils;
+namespace PhilosopherBot.Models;
 
 public class QuotesRepository
 {
@@ -29,5 +29,21 @@ public class QuotesRepository
             Console.WriteLine($"Нечаканая памылка: {ex.Message}");
             return new Dictionary<string, List<Quote>>();
         }
+    }
+
+    public List<string> GetAllAuthors()
+    {
+        var quotesDict = GetQuotesDictionary();
+        var authors = new List<string>();
+
+        foreach (var key in quotesDict.Keys)
+        {
+            foreach (var quote in quotesDict[key])
+            {
+                authors.Add(quote.Author);
+            }
+        }
+
+        return authors.Where(a => a != null).Distinct().ToList();
     }
 }

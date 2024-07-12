@@ -1,6 +1,6 @@
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace PhilosopherBot.Utils;
+namespace PhilosopherBot.Models;
 
 class KeyboardsManufactory
 {

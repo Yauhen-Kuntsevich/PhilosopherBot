@@ -2,7 +2,7 @@
 using PhilosopherBot.Handlers;
 using PhilosopherBot.Contracts;
 
-namespace PhilosopherBot.Utils;
+namespace PhilosopherBot.Models;
 
 public class CommandHandlersFactory
 {
