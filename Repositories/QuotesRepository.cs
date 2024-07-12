@@ -21,22 +21,12 @@ public class QuotesRepository
         return _quotesDict.TryGetValue(topic, out var quotes) ? quotes : [];
     }
 
-    public List<Quote> GetQuotesByPhilosopher(string philosopherName)
+    public Quote[] GetQuotesByPhilosopher(string philosopherName)
     {
-        var quotesByPhilosopher = new List<Quote>();
-
-        foreach (var key in _quotesDict.Keys)
-        {
-            foreach (var quote in _quotesDict[key])
-            {
-                if (quote.Author.Equals(philosopherName))
-                {
-                    quotesByPhilosopher.Add(quote);
-                }
-            }
-        }
-
-        return quotesByPhilosopher;
+        return _quotesDict.Values
+                   .SelectMany(quotes => quotes.Select(q => q))
+                   .Where(q => q.Author.Equals(philosopherName))
+                   .ToArray();
     }
 
     public string[] GetAllPhilosophers()
