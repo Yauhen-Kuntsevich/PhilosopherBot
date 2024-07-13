@@ -7,11 +7,11 @@ class KeyboardsManufactory
     public List<KeyboardButton[]> Buttons { get; set; } = new List<KeyboardButton[]>();
     public List<KeyboardButton> ButtonsRow { get; set; } = new List<KeyboardButton>();
 
-    public ReplyKeyboardMarkup CreateKeyboard(string[] optionsList)
+    public ReplyKeyboardMarkup CreateKeyboard(string[] options)
     {
         const int buttonsInRowCount = 2;
 
-        foreach (var option in optionsList)
+        foreach (var option in options)
         {
             ButtonsRow.Add(new KeyboardButton(option));
 
