@@ -1,8 +1,7 @@
 ﻿using Telegram.Bot;
-using PhilosopherBot.Handlers;
 using PhilosopherBot.Contracts;
 
-namespace PhilosopherBot.Models;
+namespace PhilosopherBot.Handlers;
 
 public class CommandHandlersFactory
 {

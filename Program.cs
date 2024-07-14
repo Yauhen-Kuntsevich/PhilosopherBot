@@ -1,9 +1,8 @@
 ﻿using dotenv.net;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using PhilosopherBot.Models;
-using PhilosopherBot.Data;
 using PhilosopherBot.Handlers;
+using PhilosopherBot.Data;
 using PhilosopherBot.Repositories;
 
 DotEnv.Load();

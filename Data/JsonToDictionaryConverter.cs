@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using PhilosopherBot.Models;
+using PhilosopherBot.Handlers;
 
 namespace PhilosopherBot.Data;
 

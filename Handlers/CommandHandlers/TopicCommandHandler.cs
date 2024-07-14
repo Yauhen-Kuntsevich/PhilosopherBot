@@ -1,6 +1,6 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
-using PhilosopherBot.Models;
+using PhilosopherBot.Handlers;
 using PhilosopherBot.Contracts;
 
 namespace PhilosopherBot.Handlers;
