@@ -3,11 +3,11 @@ using PhilosopherBot.Handlers;
 
 namespace PhilosopherBot.Data;
 
-public class JsonToDictionaryConverter
+public class JsonInteraction
 {
     private readonly string _pathToJson = "./Data/quotes.json";
 
-    public Dictionary<string, Quote[]> Convert()
+    public Dictionary<string, Quote[]> ParseJsonToQuotesDict()
     {
         try
         {

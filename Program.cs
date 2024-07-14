@@ -34,7 +34,7 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
     var msg = update.Message;
     Console.WriteLine($"Received message '{msg.Text}' in {msg.Chat}");
 
-    var quotesDict = new JsonToDictionaryConverter().Convert();
+    var quotesDict = new JsonInteraction().ParseJsonToQuotesDict();
 
     var quotesRepository = new QuotesRepository(quotesDict);
 
