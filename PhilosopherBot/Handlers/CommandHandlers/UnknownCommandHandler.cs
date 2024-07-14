@@ -2,7 +2,7 @@
 using Telegram.Bot.Types;
 using PhilosopherBot.Contracts;
 
-namespace PhilosopherBot.Handlers;
+namespace PhilosopherBot.Models;
 
 public class UnknownCommandHandler : IMessageHandler
 {

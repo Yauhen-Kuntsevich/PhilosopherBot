@@ -1,9 +1,9 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 using PhilosopherBot.Contracts;
-using PhilosopherBot.Handlers;
+using PhilosopherBot.Models;
 
-namespace PhilosopherBot.Handlers;
+namespace PhilosopherBot.Models;
 
 public class PhilosopherCommandHandler : IMessageHandler
 {

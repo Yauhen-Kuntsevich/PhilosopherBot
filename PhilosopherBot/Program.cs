@@ -1,7 +1,7 @@
 ﻿using dotenv.net;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using PhilosopherBot.Handlers;
+using PhilosopherBot.Models;
 using PhilosopherBot.Data;
 using PhilosopherBot.Repositories;
 
@@ -34,7 +34,7 @@ async Task HandleUpdate(ITelegramBotClient bot, Update update, CancellationToken
     var msg = update.Message;
     Console.WriteLine($"Received message '{msg.Text}' in {msg.Chat}");
 
-    var quotesDict = new JsonInteraction().ParseJsonToQuotesDict();
+    var quotesDict = new JsonInteraction("./Data/quotes.json").ParseJsonToQuotesDict();
 
     var quotesRepository = new QuotesRepository(quotesDict);
 

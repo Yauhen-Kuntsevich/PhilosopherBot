@@ -1,4 +1,4 @@
-﻿using PhilosopherBot.Handlers;
+﻿using PhilosopherBot.Models;
 
 namespace PhilosopherBot.Repositories;
 

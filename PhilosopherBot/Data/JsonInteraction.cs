@@ -1,11 +1,16 @@
 ﻿using System.Text.Json;
-using PhilosopherBot.Handlers;
+using PhilosopherBot.Models;
 
 namespace PhilosopherBot.Data;
 
 public class JsonInteraction
 {
     private readonly string _pathToJson = "./Data/quotes.json";
+
+    public JsonInteraction(string pathToJson)
+    {
+        _pathToJson = pathToJson;
+    }
 
     public Dictionary<string, Quote[]> ParseJsonToQuotesDict()
     {

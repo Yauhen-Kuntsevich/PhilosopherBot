@@ -1,4 +1,4 @@
-namespace PhilosopherBot.Handlers;
+namespace PhilosopherBot.Models;
 
 public class Quote
 {
