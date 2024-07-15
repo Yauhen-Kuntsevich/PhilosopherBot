@@ -4,7 +4,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using PhilosopherBot.Contracts;
 
-namespace PhilosopherBot.Models;
+namespace PhilosopherBot.Handlers;
 
 public class StartCommandHandler : IMessageHandler
 {

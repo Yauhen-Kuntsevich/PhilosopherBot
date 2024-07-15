@@ -1,10 +1,10 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using PhilosopherBot.Models;
 using PhilosopherBot.Contracts;
+using PhilosopherBot.Models;
 
-namespace PhilosopherBot.Models;
+namespace PhilosopherBot.Handlers;
 
 public class PhilosopherChoiceHandler : IMessageHandler
 {

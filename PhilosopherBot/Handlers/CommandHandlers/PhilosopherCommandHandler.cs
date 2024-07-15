@@ -3,7 +3,7 @@ using Telegram.Bot.Types;
 using PhilosopherBot.Contracts;
 using PhilosopherBot.Models;
 
-namespace PhilosopherBot.Models;
+namespace PhilosopherBot.Handlers;
 
 public class PhilosopherCommandHandler : IMessageHandler
 {

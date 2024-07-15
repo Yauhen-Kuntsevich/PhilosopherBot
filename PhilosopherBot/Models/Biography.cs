@@ -1,4 +1,4 @@
-﻿namespace PhilosopherBot;
+﻿namespace PhilosopherBot.Models;
 
 public class Biography
 {
